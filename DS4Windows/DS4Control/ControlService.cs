@@ -39,8 +39,10 @@ namespace DS4Windows
     public class ControlService
     {
         public ViGEmClient vigemTestClient = null;
+
         // Might be useful for ScpVBus build
         public const int EXPANDED_CONTROLLER_COUNT = 8;
+
         public const int MAX_DS4_CONTROLLER_COUNT = Global.MAX_DS4_CONTROLLER_COUNT;
 #if FORCE_4_INPUT
         public static int CURRENT_DS4_CONTROLLER_LIMIT = Global.OLD_XINPUT_CONTROLLER_COUNT;
@@ -61,25 +63,30 @@ namespace DS4Windows
         public DS4StateExposed[] ExposedState = new DS4StateExposed[MAX_DS4_CONTROLLER_COUNT];
         public ControllerSlotManager slotManager = new ControllerSlotManager();
         public bool recordingMacro = false;
+
         public event EventHandler<DebugEventArgs> Debug = null;
-        bool[] buttonsdown = new bool[MAX_DS4_CONTROLLER_COUNT] { false, false, false, false, false, false, false, false };
-        bool[] held = new bool[MAX_DS4_CONTROLLER_COUNT];
-        int[] oldmouse = new int[MAX_DS4_CONTROLLER_COUNT] { -1, -1, -1, -1, -1, -1, -1, -1 };
+
+        private bool[] buttonsdown = new bool[MAX_DS4_CONTROLLER_COUNT] { false, false, false, false, false, false, false, false };
+        private bool[] held = new bool[MAX_DS4_CONTROLLER_COUNT];
+        private int[] oldmouse = new int[MAX_DS4_CONTROLLER_COUNT] { -1, -1, -1, -1, -1, -1, -1, -1 };
         public OutputDevice[] outputDevices = new OutputDevice[MAX_DS4_CONTROLLER_COUNT] { null, null, null, null, null, null, null, null };
+
         private OneEuroFilter3D[] udpEuroPairAccel = new OneEuroFilter3D[UdpServer.NUMBER_SLOTS]
         {
             new OneEuroFilter3D(), new OneEuroFilter3D(),
             new OneEuroFilter3D(), new OneEuroFilter3D(),
         };
+
         private OneEuroFilter3D[] udpEuroPairGyro = new OneEuroFilter3D[UdpServer.NUMBER_SLOTS]
         {
             new OneEuroFilter3D(), new OneEuroFilter3D(),
             new OneEuroFilter3D(), new OneEuroFilter3D(),
         };
-        Thread tempThread;
-        Thread tempBusThread;
-        Thread eventDispatchThread;
-        Dispatcher eventDispatcher;
+
+        private Thread tempThread;
+        private Thread tempBusThread;
+        private Thread eventDispatchThread;
+        private Dispatcher eventDispatcher;
         public bool suspending;
 
         private UdpServer _udpServer;
@@ -96,11 +103,16 @@ namespace DS4Windows
         private DS4WinWPF.ArgumentParser cmdParser;
 
         public event EventHandler ServiceStarted;
+
         public event EventHandler PreServiceStop;
+
         public event EventHandler ServiceStopped;
+
         public event EventHandler RunningChanged;
+
         //public event EventHandler HotplugFinished;
         public delegate void HotplugControllerHandler(ControlService sender, DS4Device device, int index);
+
         public event HotplugControllerHandler HotplugController;
 
         private byte[][] udpOutBuffers = new byte[UdpServer.NUMBER_SLOTS][]
@@ -260,16 +272,19 @@ namespace DS4Windows
                 case "battery":
                     command[3] = "battery";
                     break;
+
                 case "l2":
                 case "r2":
                     command[3] = "trigger";
                     break;
+
                 case "rx":
                 case "ry":
                 case "lx":
                 case "ly":
                     command[3] = "stick";
                     break;
+
                 default:
                     command[3] = "press";
                     break;
@@ -356,52 +371,67 @@ namespace DS4Windows
                         case "cross":
                             oscState[stateInd].Cross = buttonBool;
                             break;
+
                         case "square":
                             oscState[stateInd].Square = buttonBool;
                             break;
+
                         case "circle":
                             oscState[stateInd].Circle = buttonBool;
                             break;
+
                         case "triangle":
                             oscState[stateInd].Triangle = buttonBool;
                             break;
+
                         case "r1":
                             oscState[stateInd].R1 = buttonBool;
                             break;
+
                         case "r2":
                             oscState[stateInd].R2 = Convert.ToByte(buttonBool ? 255 : 0);
                             break;
+
                         case "r3":
                             oscState[stateInd].R3 = buttonBool;
                             break;
+
                         case "l1":
                             oscState[stateInd].L1 = buttonBool;
                             break;
+
                         case "l2":
                             oscState[stateInd].L2 = Convert.ToByte(buttonBool ? 255 : 0);
                             break;
+
                         case "l3":
                             oscState[stateInd].L3 = buttonBool;
                             break;
+
                         case "dpadup":
                         case "dup":
                             oscState[stateInd].DpadUp = buttonBool;
                             break;
+
                         case "dpaddown":
                         case "ddown":
                             oscState[stateInd].DpadDown = buttonBool;
                             break;
+
                         case "dpadleft":
                         case "dleft":
                             oscState[stateInd].DpadLeft = buttonBool;
                             break;
+
                         case "dpadright":
                         case "dright":
                             oscState[stateInd].DpadRight = buttonBool;
                             break;
+
                         case "options":
                             oscState[stateInd].Options = buttonBool;
                             break;
+
                         case "share":
                             oscState[stateInd].Share = buttonBool;
                             break;
@@ -414,12 +444,15 @@ namespace DS4Windows
                         case "lx":
                             oscState[stateInd].LX = Convert.ToByte(Convert.ToSingle(messageReceived.Arguments[0]));
                             break;
+
                         case "ly":
                             oscState[stateInd].LY = Convert.ToByte(Convert.ToSingle(messageReceived.Arguments[0]));
                             break;
+
                         case "rx":
                             oscState[stateInd].RX = Convert.ToByte(Convert.ToSingle(messageReceived.Arguments[0]));
                             break;
+
                         case "ry":
                             oscState[stateInd].RY = Convert.ToByte(Convert.ToSingle(messageReceived.Arguments[0]));
                             break;
@@ -448,6 +481,7 @@ namespace DS4Windows
                         case "r2":
                             oscState[stateInd].R2 = Convert.ToByte(Convert.ToSingle(messageReceived.Arguments[0]));
                             break;
+
                         case "l2":
                             oscState[stateInd].L2 = Convert.ToByte(Convert.ToSingle(messageReceived.Arguments[0]));
                             break;
@@ -578,20 +612,25 @@ namespace DS4Windows
                 case InputDevices.InputDeviceType.DS4:
                     result = deviceOptions.DS4DeviceOpts.Enabled;
                     break;
+
                 case InputDevices.InputDeviceType.DualSense:
                     result = deviceOptions.DualSenseOpts.Enabled;
                     break;
+
                 case InputDevices.InputDeviceType.SwitchPro:
                     result = deviceOptions.SwitchProDeviceOpts.Enabled;
                     break;
+
                 case InputDevices.InputDeviceType.JoyConL:
                 case InputDevices.InputDeviceType.JoyConR:
                 case InputDevices.InputDeviceType.JoyConGrip:
                     result = deviceOptions.JoyConDeviceOpts.Enabled;
                     break;
+
                 case InputDevices.InputDeviceType.DS3:
                     result = deviceOptions.DS3DeviceOpts.Enabled;
                     break;
+
                 default:
                     break;
             }
@@ -663,7 +702,6 @@ namespace DS4Windows
                     {
                         return;
                     }
-
 
                     List<string> dosPaths = hidHideDevice.GetWhitelist();
 
@@ -795,13 +833,16 @@ namespace DS4Windows
                     }
 
                     break;
+
                 case InputDevices.InputDeviceType.JoyConL:
                 case InputDevices.InputDeviceType.JoyConR:
                     result.AddRange(new DS4Controls[] { DS4Controls.Capture, DS4Controls.SideL, DS4Controls.SideR, DS4Controls.FnL, DS4Controls.FnR });
                     break;
+
                 case InputDevices.InputDeviceType.SwitchPro:
                     result.AddRange(new DS4Controls[] { DS4Controls.Capture });
                     break;
+
                 default:
                     break;
             }
@@ -827,7 +868,6 @@ namespace DS4Windows
 
         public void ChangeUDPStatus(bool state, bool openPort = true)
         {
-
             if (state && _udpServer == null)
             {
                 udpChangeStatus = true;
@@ -948,6 +988,7 @@ namespace DS4Windows
 
         private bool udpChangeStatus = false;
         public bool changingUDPPort = false;
+
         public async void UseUDPPort()
         {
             changingUDPPort = true;
@@ -2225,10 +2266,12 @@ namespace DS4Windows
                         dualsense.UseRumble = false;
                         dualsense.UseAccurateRumble = false;
                         break;
+
                     case InputDevices.DualSenseDevice.RumbleEmulationMode.Legacy:
                         dualsense.UseRumble = true;
                         dualsense.UseAccurateRumble = false;
                         break;
+
                     case InputDevices.DualSenseDevice.RumbleEmulationMode.Accurate:
                     default:
                         dualsense.UseRumble = true;
@@ -2547,6 +2590,8 @@ namespace DS4Windows
 
                     LogDebug(removed);
                     AppLogger.LogToTray(removed);
+                    if (isUsingOSCSender()) oscSender?.Send(new SharpOSC.OscMessage($"/ds4windows/monitor/{ind}/disconnected/{removed}"));
+
                     /*Stopwatch sw = new Stopwatch();
                     sw.Start();
                     while (sw.ElapsedMilliseconds < XINPUT_UNPLUG_SETTLE_TIME)
@@ -2645,7 +2690,6 @@ namespace DS4Windows
                 //device.getPreviousState(PreviousState[ind]);
                 //DS4State pState = PreviousState[ind];
 
-
                 if (device.firstReport && device.isSynced())
                 {
                     // Only send Log message when device is considered a primary device
@@ -2656,12 +2700,14 @@ namespace DS4Windows
                             string prolog = string.Format(DS4WinWPF.Properties.Resources.UsingProfile, (ind + 1).ToString(), ProfilePath[ind], $"{device.Battery}");
                             LogDebug(prolog);
                             AppLogger.LogToTray(prolog);
+                            if (isUsingOSCSender()) oscSender.Send(new SharpOSC.OscMessage($"/ds4windows/monitor/{ind}/connected/{prolog}"));
                         }
                         else
                         {
                             string prolog = string.Format(DS4WinWPF.Properties.Resources.NotUsingProfile, (ind + 1).ToString(), $"{device.Battery}");
                             LogDebug(prolog);
                             AppLogger.LogToTray(prolog);
+                            if (isUsingOSCSender()) oscSender.Send(new SharpOSC.OscMessage($"/ds4windows/monitor/{ind}/connected/{prolog}"));
                         }
                     }
 
@@ -2749,7 +2795,6 @@ namespace DS4Windows
                     }
 
                     cState = tempMapState;
-
                 }
 
                 if (!useDInputOnly[ind])
@@ -2899,7 +2944,8 @@ namespace DS4Windows
 
         private void CompareAndSendChangesToOSC(int index, DS4State oldState, DS4State newState)
         {
-            // Buttons 
+            return;
+            // Buttons
             if (oldState.Square != newState.Square)
             {
                 oscSender.Send(new OscMessage("/ds4windows/monitor/" + index + "/square", newState.Square == true ? 1 : 0));

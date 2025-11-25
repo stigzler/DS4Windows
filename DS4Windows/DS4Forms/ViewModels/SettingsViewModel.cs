@@ -44,10 +44,14 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             set => DS4Windows.Global.UseExclusiveMode = value;
         }
 
-        public bool SwipeTouchSwitchProfile { get => DS4Windows.Global.SwipeProfiles;
-            set => DS4Windows.Global.SwipeProfiles = value; }
+        public bool SwipeTouchSwitchProfile
+        {
+            get => DS4Windows.Global.SwipeProfiles;
+            set => DS4Windows.Global.SwipeProfiles = value;
+        }
 
         private bool runAtStartup;
+
         public bool RunAtStartup
         {
             get => runAtStartup;
@@ -57,9 +61,11 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 RunAtStartupChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler RunAtStartupChanged;
 
         private bool runStartProg;
+
         public bool RunStartProg
         {
             get => runStartProg;
@@ -69,9 +75,11 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 RunStartProgChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler RunStartProgChanged;
 
         private bool runStartTask;
+
         public bool RunStartTask
         {
             get => runStartTask;
@@ -81,6 +89,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 RunStartTaskChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler RunStartTaskChanged;
 
         private bool canWriteTask;
@@ -93,7 +102,9 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public ImageSource QuestionMarkSource { get => questionMarkSource; }
 
         private Visibility showRunStartPanel = Visibility.Collapsed;
-        public Visibility ShowRunStartPanel {
+
+        public Visibility ShowRunStartPanel
+        {
             get => showRunStartPanel;
             set
             {
@@ -155,6 +166,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 IconChoiceIndexChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler IconChoiceIndexChanged;
 
         public int AppChoiceIndex
@@ -168,6 +180,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 AppChoiceIndexChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler AppChoiceIndexChanged;
 
         public bool CheckForUpdates
@@ -179,6 +192,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 CheckForNoUpdatesWhen();
             }
         }
+
         public event EventHandler CheckForUpdatesChanged;
 
         public int CheckEvery
@@ -215,9 +229,11 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 }
             }
         }
+
         public event EventHandler CheckEveryChanged;
 
         private int checkEveryUnitIdx = 1;
+
         public int CheckEveryUnit
         {
             get
@@ -231,6 +247,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 CheckEveryUnitChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler CheckEveryUnitChanged;
 
         public bool UseOSCServer
@@ -243,9 +260,11 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 UseOSCServerChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler UseOSCServerChanged;
+
         public int OscPort { get => DS4Windows.Global.getOSCServerPortNum(); set => DS4Windows.Global.setOSCServerPort(value); }
-        
+
         public bool InterpretingOscMonitoring { get => DS4Windows.Global.isInterpretingOscMonitoring(); set => DS4Windows.Global.setInterpretingOscMonitoring(value); }
 
         public bool UseOSCSender
@@ -258,7 +277,9 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 UseOSCSenderChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler UseOSCSenderChanged;
+
         public int OscSendPort { get => DS4Windows.Global.getOSCSenderPortNum(); set => DS4Windows.Global.setOSCSenderPort(value); }
 
         public string OscSenderAddress
@@ -266,7 +287,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             get => DS4Windows.Global.getOSCSenderAddress();
             set => DS4Windows.Global.setOSCSenderAddress(value);
         }
-
 
         public bool UseUDPServer
         {
@@ -278,10 +298,15 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 UseUDPServerChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler UseUDPServerChanged;
 
-        public string UdpIpAddress { get => DS4Windows.Global.getUDPServerListenAddress();
-            set => DS4Windows.Global.setUDPServerListenAddress(value); }
+        public string UdpIpAddress
+        {
+            get => DS4Windows.Global.getUDPServerListenAddress();
+            set => DS4Windows.Global.setUDPServerListenAddress(value);
+        }
+
         public int UdpPort { get => DS4Windows.Global.getUDPServerPortNum(); set => DS4Windows.Global.setUDPServerPort(value); }
 
         public bool UseUdpSmoothing
@@ -295,12 +320,14 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 UseUdpSmoothingChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler UseUdpSmoothingChanged;
 
         public Visibility UdpServerOneEuroPanelVisibility
         {
             get => DS4Windows.Global.isUsingUDPServer() && DS4Windows.Global.UseUDPSeverSmoothing ? Visibility.Visible : Visibility.Collapsed;
         }
+
         public event EventHandler UdpServerOneEuroPanelVisibilityChanged;
 
         public double UdpSmoothMinCutoff
@@ -314,6 +341,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 UdpSmoothMinCutoffChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler UdpSmoothMinCutoffChanged;
 
         public double UdpSmoothBeta
@@ -327,6 +355,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 UdpSmoothBetaChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler UdpSmoothBetaChanged;
 
         public bool UseCustomSteamFolder
@@ -338,6 +367,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 UseCustomSteamFolderChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler UseCustomSteamFolderChanged;
 
         public string CustomSteamFolder
@@ -355,6 +385,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         }
 
         private bool viewEnabled = true;
+
         public bool ViewEnabled
         {
             get => viewEnabled;
@@ -364,6 +395,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 ViewEnabledChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler ViewEnabledChanged;
 
         public string FakeExeName
@@ -378,11 +410,13 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 FakeExeNameChangeCompare?.Invoke(this, temp, value);
             }
         }
+
         public event EventHandler FakeExeNameChanged;
+
         public event FakeExeNameChangeHandler FakeExeNameChangeCompare;
+
         public delegate void FakeExeNameChangeHandler(SettingsViewModel sender,
             string oldvalue, string newvalue);
-
 
         public bool HidHideClientFound
         {
@@ -394,10 +428,12 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 return result;
             }
         }
+
         public event EventHandler HidHideClientFoundChanged;
 
         private List<MonitorChoiceListing> absMonitorChoices = new List<MonitorChoiceListing>();
         public List<MonitorChoiceListing> AbsMonitorChoices => absMonitorChoices;
+
         public event EventHandler AbsMonitorChoicesChanged;
 
         //private string absMonitorSettingEDID = string.Empty;
@@ -415,7 +451,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 Global.ProcessPriority = value;
                 ProcessPriorityIndexChanged?.Invoke(this, EventArgs.Empty);
             }
-
         }
 
         public event EventHandler ProcessPriorityIndexChanged;
@@ -675,7 +710,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             });
 
             int idx = 1;
-            foreach(DISPLAY_DEVICE tempDis in Global.GrabCurrentMonitors())
+            foreach (DISPLAY_DEVICE tempDis in Global.GrabCurrentMonitors())
             {
                 absMonitorChoices.Add(new MonitorChoiceListing()
                 {
@@ -694,6 +729,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
     public struct MonitorChoiceListing
     {
         private int idx;
+
         public int Index
         {
             get => idx;
@@ -701,6 +737,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         }
 
         private string edid;
+
         public string EDID
         {
             get => edid;
@@ -708,6 +745,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         }
 
         private string displayName;
+
         public string DisplayName
         {
             get => displayName;

@@ -35,8 +35,10 @@ namespace DS4WinWPF.DS4Forms.ViewModels
     {
         //private object _colLockobj = new object();
         private ReaderWriterLockSlim _colListLocker = new ReaderWriterLockSlim();
+
         private ObservableCollection<CompositeDeviceModel> controllerCol =
             new ObservableCollection<CompositeDeviceModel>();
+
         private Dictionary<int, CompositeDeviceModel> controllerDict =
             new Dictionary<int, CompositeDeviceModel>();
 
@@ -47,7 +49,9 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         private ControlService controlService;
         private int currentIndex;
         public int CurrentIndex { get => currentIndex; set => currentIndex = value; }
-        public CompositeDeviceModel CurrentItem {
+
+        public CompositeDeviceModel CurrentItem
+        {
             get
             {
                 if (currentIndex == -1) return null;
@@ -256,6 +260,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 return temp;
             }
         }
+
         public event EventHandler BatteryStateChanged;
 
         public int SelectedIndex
@@ -268,6 +273,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler SelectedIndexChanged;
 
         public string StatusSource
@@ -286,17 +292,19 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 string imgName = (string)App.Current.FindResource("CancelImg");
                 string source = $"{Global.RESOURCES_PREFIX}/{imgName}";
-                switch(device.CurrentExclusiveStatus)
+                switch (device.CurrentExclusiveStatus)
                 {
                     case DS4Device.ExclusiveStatus.Exclusive:
                         imgName = (string)App.Current.FindResource("CheckedImg");
                         source = $"{Global.RESOURCES_PREFIX}/{imgName}";
                         break;
+
                     case DS4Device.ExclusiveStatus.HidHideAffected:
                     case DS4Device.ExclusiveStatus.HidGuardAffected:
                         imgName = (string)App.Current.FindResource("KeyImageImg");
                         source = $"{Global.RESOURCES_PREFIX}/{imgName}";
                         break;
+
                     default:
                         break;
                 }
@@ -344,6 +352,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             get => $"{device.DisplayName} ({device.MacAddress})";
         }
+
         public event EventHandler IdTextChanged;
 
         public string IsExclusiveText
@@ -351,17 +360,20 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             get
             {
                 string temp = Translations.Strings.SharedAccess;
-                switch(device.CurrentExclusiveStatus)
+                switch (device.CurrentExclusiveStatus)
                 {
                     case DS4Device.ExclusiveStatus.Exclusive:
                         temp = Translations.Strings.ExclusiveAccess;
                         break;
+
                     case DS4Device.ExclusiveStatus.HidHideAffected:
                         temp = Translations.Strings.HidHideAccess;
                         break;
+
                     case DS4Device.ExclusiveStatus.HidGuardAffected:
                         temp = Translations.Strings.HidGuardianAccess;
                         break;
+
                     default:
                         break;
                 }
@@ -376,6 +388,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         }
 
         public delegate void CustomColorHandler(CompositeDeviceModel sender);
+
         public event CustomColorHandler RequestColorPicker;
 
         public CompositeDeviceModel(DS4Device device, int devIndex, string profile,
@@ -436,7 +449,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                         Global.LoadProfile(devIndex, true, App.rootHub);
                     });
                 }
-
             }).Wait();
 
             string prolog = string.Format(Properties.Resources.UsingProfile, (devIndex + 1).ToString(), prof, $"{device.Battery}");
