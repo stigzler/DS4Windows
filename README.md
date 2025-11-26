@@ -1,3 +1,6 @@
+# DS4Windows Special Edition
+This is a verison of DS4Windows specifically designed for use with the Launchbox plugin Gearbox. It imporves the OSC messaging and adds the ability to slimline those communications to just meta commands like controller connected and changes of profile. 
+
 # DS4Windows
 
 Like those other DS4 tools, but sexier.
