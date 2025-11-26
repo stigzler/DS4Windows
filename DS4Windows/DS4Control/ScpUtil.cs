@@ -1839,11 +1839,6 @@ namespace DS4Windows
             m_Config.useOSCSend = state;
         }
 
-        public static bool getSuppressSendingOSCControls()
-        {
-            return m_Config.suppressSendingOSCControls;
-        }
-
         public static int getOSCSenderPortNum()
         {
             return m_Config.oscSendPort;

@@ -33,6 +33,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using DS4WinWPF.DS4Forms;
 using static DS4Windows.Global;
+using System.Windows.Forms.PropertyGridInternal;
 
 namespace DS4Windows
 {
@@ -2944,7 +2945,8 @@ namespace DS4Windows
 
         private void CompareAndSendChangesToOSC(int index, DS4State oldState, DS4State newState)
         {
-            return;
+            if (DS4WinWPF.Properties.Settings.Default.OSCSuppressControls) return;
+
             // Buttons
             if (oldState.Square != newState.Square)
             {

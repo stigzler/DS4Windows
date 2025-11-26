@@ -15,11 +15,27 @@
         xmlns:properties="clr-namespace:DS4WinWPF.Properties"
         xml:lang="en-US"
         mc:Ignorable="d"
-        Title="DS4Windows" Height="500" Width="800" Closing="MainDS4Window_Closing" Closed="MainDS4Window_Closed" StateChanged="MainDS4Window_StateChanged" SizeChanged="MainDS4Window_SizeChanged" LocationChanged="MainDS4Window_LocationChanged" MinWidth="600" MinHeight="250"
+        Title="DS4Windows - Atari 1280 Edition" Height="500" Width="800" Closing="MainDS4Window_Closing" Closed="MainDS4Window_Closed" StateChanged="MainDS4Window_StateChanged" SizeChanged="MainDS4Window_SizeChanged" LocationChanged="MainDS4Window_LocationChanged" MinWidth="600" MinHeight="250"
         Style="{DynamicResource WindowStyle}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <local:ImageLocationPaths x:Key="ImgLocPaths" />
+        <Style TargetType="{x:Type ToolTip}">
+            <Setter Property="MaxWidth" Value="300" />
+            <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
+            <!-- Use an explicit ContentTemplate so string ToolTip content is rendered with a wrapping TextBlock -->
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"
+                         TextWrapping="Wrap"
+                         Margin="4"
+                         MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ToolTip}, Path=MaxWidth}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <DockPanel>
         <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource,Mode=OneWay}" ToolTipText="{Binding TooltipText,Mode=OneWay}" MenuActivation="RightClick" TrayRightMouseUp="NotifyIcon_TrayRightMouseUp" TrayMiddleMouseDown="NotifyIcon_TrayMiddleMouseDown" TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
@@ -357,7 +373,7 @@
                                             Value="{Binding OscSendPort, UpdateSourceTrigger=LostFocus,FallbackValue='9000'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
                                 </StackPanel>
                                 <CheckBox Margin="10,5,0,0"  Content="Suppress sending controls" ToolTip="Stops sending individual controls (such as triangle etc) and just sends meta events like connected and Profile changes"
-                                          IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=OSCSuppressControls}" />
+                                          IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=OSCSuppressControls}" Checked="CheckBox_Checked" />
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="{lex:Loc UDPServer}" Padding="0,10,0,0" Margin="{StaticResource spaceMargin}">
